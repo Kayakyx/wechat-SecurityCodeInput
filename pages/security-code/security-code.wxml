@@ -1,0 +1,55 @@
+<!--pages/security-code/security-code.wxml-->
+<view class="signValidateShare">
+
+  <view class="bg">
+    <view class="time-wrap">
+      <view class="box">
+        {{contractName}}
+      </view>
+    </view>
+  </view>
+  <view class="container">
+    <scroll-view class="scroll-view" scroll-y scroll-top="{{scrollTop}}">
+
+      <view class="scroll-inner">
+        <view class="validataWrap">
+            <view class="title">请进行身份验证</view>
+            <!-- <view class="des">请输入身份证 (<text class="identity-card">371311199301…</text>) 后6位</view> -->
+            <view class="des">请输入身份证 (<text class="identity-card">{{tools.handleSliceIdCard(idCard)}}</text>) 后6位</view>
+            <view class="nums">
+              <block wx:for="{{inputLength}}">
+              <input wx:key="{{index}}" value="{{inputValue.length - 1 >= index ? inputValue[index]: ''}}" type="number" disabled catchtap="handleInputTap"/>
+              
+              </block>
+
+              <input class="hidden-input" type="number" focus="{{isFocus}}" maxlength="{{inputLength}}" bindinput="handleInputChange"></input>
+
+            </view>
+            <view hidden="{{hideTip}}" class="tip animated shake">您输入的信息有误</view>
+        </view> 
+        <view class="btn-wrap">
+          <button class="{{isLight ? 'validata-btn light-btn' : 'validata-btn'}}" type="default" size="{{defaultSize}}" loading="{{loading}}" 
+                  plain="{{plain}}" disabled="{{disabled}}" bindtap="{{isLight? 'handleValidata': null}}" 
+                  hover-class="other-button-hover"> 
+                  验证 
+          </button>
+        </view>
+
+      </view>
+    </scroll-view>
+  </view> 
+</view>
+
+<!--暂无内容-->
+<!-- <import src="../../../../../../globalComponents/no-hint/no-hint.wxml" /> -->
+<!-- <template is="loading" wx:if="{{loading}}" /> -->
+
+<wxs module="tools">
+  function handleSliceIdCard( idCard ){
+    if(!idCard) return '';
+    return idCard.slice(0, -6) + '...';
+  }
+  module.exports = {
+    handleSliceIdCard: handleSliceIdCard
+  }
+</wxs>
